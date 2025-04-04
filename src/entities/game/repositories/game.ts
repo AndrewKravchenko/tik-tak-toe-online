@@ -42,9 +42,9 @@ async function createGame(game: Omit<GameIdleEntity, 'id'>): Promise<GameEntity>
         },
       },
     },
-  });
+  })
 
-  return dbGameToGameEntity(createdGame);
+  return dbGameToGameEntity(createdGame)
 }
 
 const fieldSchema = z.array(z.union([z.string(), z.null()]))

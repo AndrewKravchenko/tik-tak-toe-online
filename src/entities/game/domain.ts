@@ -1,22 +1,23 @@
 import { GameStatus } from '@prisma/client'
+import { GameId, UserId } from '@/kernel/ids'
 
 export type GameEntity = GameIdleEntity | GameInProgressEntity | GameOverEntity | GameOverDrawEntity
 
 export type GameIdleEntity = {
-  id: string
+  id: GameId
   creator: PlayerEntity
   status: typeof GameStatus.idle
 }
 
 export type GameInProgressEntity = {
-  id: string
+  id: GameId
   players: PlayerEntity[]
   field: Field
   status: typeof GameStatus.inProgress
 }
 
 export type GameOverEntity = {
-  id: string
+  id: GameId
   players: PlayerEntity[]
   field: Field
   status: typeof GameStatus.gameOver
@@ -24,14 +25,14 @@ export type GameOverEntity = {
 }
 
 export type GameOverDrawEntity = {
-  id: string
+  id: GameId
   players: PlayerEntity[]
   field: Field
   status: typeof GameStatus.gameOverDraw
 }
 
 export type PlayerEntity = {
-  id: string
+  id: UserId
   login: string
   rating: number
 }

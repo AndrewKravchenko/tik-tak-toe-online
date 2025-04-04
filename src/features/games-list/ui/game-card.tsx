@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/shared/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card'
 
 export function GameCard({ login, rating }: { login: string; rating: number }) {
   return (
@@ -8,5 +8,5 @@ export function GameCard({ login, rating }: { login: string; rating: number }) {
       </CardHeader>
       <CardContent>Rating: {rating}</CardContent>
     </Card>
-  );
+  )
 }

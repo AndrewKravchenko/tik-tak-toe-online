@@ -22,7 +22,7 @@ export const right = <SuccessType>(value: SuccessType): Right<SuccessType> => ({
 
 export const mapRight = <SuccessType, NewSuccessType, ErrorType = unknown>(
   either: Either<ErrorType, SuccessType>,
-  fn: (value: SuccessType) => NewSuccessType
+  fn: (value: SuccessType) => NewSuccessType,
 ): Either<ErrorType, NewSuccessType> => {
   if (either.type === 'right') {
     return right(fn(either.value))
@@ -33,7 +33,7 @@ export const mapRight = <SuccessType, NewSuccessType, ErrorType = unknown>(
 
 export const mapLeft = <SuccessType, ErrorType, NewErrorType>(
   either: Either<ErrorType, SuccessType>,
-  fn: (value: ErrorType) => NewErrorType
+  fn: (value: ErrorType) => NewErrorType,
 ): Either<NewErrorType, SuccessType> => {
   if (either.type === 'left') {
     return left(fn(either.error))
@@ -47,7 +47,7 @@ export const matchEither = <ErrorType, SuccessType, ReturnType>(
   matchers: {
     left: (error: ErrorType) => ReturnType
     right: (value: SuccessType) => ReturnType
-  }
+  },
 ): ReturnType => {
   if (either.type === 'left') {
     return matchers.left(either.error)
