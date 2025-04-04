@@ -71,6 +71,7 @@ function mapIdleGame(game: GameWithPlayersAndWinner): GameIdleEntity {
     id: game.id,
     creator,
     status: game.status,
+    field: fieldSchema.parse(game.field),
   } as GameIdleEntity
 }
 
