@@ -1,28 +1,18 @@
+'use client'
+
+import { GameId } from '@/kernel/ids'
 import { GameLayout } from '../ui/layout'
 import { GamePlayers } from '../ui/players'
 
 import { GameStatus } from '../ui/status'
 import { GameField } from '../ui/field'
-import { GameDomain } from '@/entities/game'
+import { useGame } from '../model/use-game'
 
-export function Game() {
-  const game: GameDomain.GameEntity = {
-    id: '1',
-    players: [
-      {
-        id: '1',
-        login: 'Test',
-        rating: 1000,
-      },
-      {
-        id: '1',
-        login: 'Test',
-        rating: 1000,
-      },
-    ],
+export function Game({ gameId }: { gameId: GameId }) {
+  const { game, isPending } = useGame(gameId)
 
-    status: 'inProgress',
-    field: [null, null, null, 'O', 'X', null, null, null, null],
+  if (!game || isPending) {
+    return <GameLayout status={'Загрузка'} />
   }
 
   return (
