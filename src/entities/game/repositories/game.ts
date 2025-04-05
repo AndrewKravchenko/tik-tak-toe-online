@@ -1,8 +1,16 @@
 import { prisma } from '@/shared/lib/db'
-import { GameEntity, GameIdleEntity, GameInProgressEntity, GameOverDrawEntity, GameOverEntity } from '../domain'
+import {
+  GameEntity,
+  GameIdleEntity,
+  GameInProgressEntity,
+  GameOverDrawEntity,
+  GameOverEntity,
+  PlayerEntity,
+} from '../domain'
 import { Game, Prisma, User } from '@prisma/client'
 import { z } from 'zod'
 import { GameStatus } from '@prisma/client'
+import { GameId } from '@/kernel/ids'
 
 type GameWithPlayersAndWinner = Game & {
   players: Omit<User, 'passwordHash'>[]
@@ -23,6 +31,26 @@ async function gamesList(where?: Prisma.GameWhereInput): Promise<GameEntity[]> {
   })
 
   return games.map(dbGameToGameEntity)
+}
+
+async function startGame(gameId: GameId, player: PlayerEntity) {
+  return dbGameToGameEntity(
+    await prisma.game.update({
+      where: { id: gameId },
+      data: {
+        players: {
+          connect: {
+            id: player.id,
+          },
+        },
+        status: 'inProgress',
+      },
+      include: {
+        winner: true,
+        players: true,
+      },
+    }),
+  )
 }
 
 async function getGame(where?: Prisma.GameWhereInput) {
@@ -111,4 +139,4 @@ function mapGameOverGame(game: GameWithPlayersAndWinner): GameOverEntity {
   } as GameOverEntity
 }
 
-export const gameRepository = { gamesList, createGame, getGame }
+export const gameRepository = { gamesList, createGame, getGame, startGame }
