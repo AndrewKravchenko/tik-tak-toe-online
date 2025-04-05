@@ -3,23 +3,25 @@
 import { AuthFormLayout } from '../ui/auth-form-layout'
 import { AuthFields } from '../ui/fields'
 import { SubmitButton } from '../ui/submit-button'
-import { BottomLink } from '../ui/link'
-import { ErrorMessage } from '../ui/error-message'
-import { signInAction, SignInFormState } from '../actions/sing-in'
-import { useActionState } from '@/shared/lib/react'
 
-export function SignInForm() {
-  const [formState, action, isPending] = useActionState(signInAction, {} as SignInFormState)
+import { BottomLink } from '../ui/link'
+import { useActionState } from '@/shared/lib/react'
+import { SignUnFormState, signUpAction } from '../actions/sign-up'
+import { routes } from '@/kernel/routes'
+import { ErrorMessage } from '../ui/error-message'
+
+export function SignUpForm() {
+  const [formState, action, isPending] = useActionState(signUpAction, {} as SignUnFormState)
 
   return (
     <AuthFormLayout
-      title="Sign In"
-      description="Welcome back! Please sign in to your account"
+      title="Sign Up"
+      description="Create your account to get started"
       action={action}
       fields={<AuthFields {...formState} />}
-      actions={<SubmitButton isPending={isPending}> Sign In</SubmitButton>}
+      actions={<SubmitButton isPending={isPending}>Sign Up</SubmitButton>}
       error={<ErrorMessage error={formState.errors?._errors} />}
-      link={<BottomLink text="Don't have an account?" linkText="Sign up" url="/sign-up" />}
+      link={<BottomLink text="Already have an account?" linkText="Sign in" url={routes.signIn()} />}
     />
   )
 }
